@@ -1,0 +1,36 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) == 0:
+            return 0
+        
+        unique = {}
+        best_index = 0
+        cur_index = 0
+        longest = 1
+        i = 0
+        n = len(s)
+        while i < n:
+            if s[i] in unique:
+                if (i-cur_index) > longest:
+                    longest = i-cur_index
+                    best_index = cur_index
+                cur_index = unique[s[i]]+1
+                if i >= n:
+                    break
+                else:
+                    unique = {s[cur_index]:cur_index}
+                    i = cur_index + 1
+            else:
+                unique[s[i]] = i
+                i += 1
+        
+        if (i-cur_index) > longest:
+            longest = i-cur_index
+            
+        if len(unique.keys()) == n:
+            return n
+        return longest
